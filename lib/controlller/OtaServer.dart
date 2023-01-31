@@ -801,7 +801,6 @@ class OtaServer extends GetxService implements RWCPListener {
   }
 
   void disconnect() {
-    stopUpgrade();
     _connection?.cancel();
     _subscribeConnection?.cancel();
     _subscribeConnectionRWCP?.cancel();
@@ -846,9 +845,16 @@ class OtaServer extends GetxService implements RWCPListener {
         addLog("bluetoothConnect deny");
         return;
       }
+    } else {
+      var bluetooth = await Permission.bluetooth.status;
+      if (bluetooth.isDenied) {
+        addLog("bluetooth deny");
+        return;
+      }
     }
     try {
       await _scanConnection?.cancel();
+      await _connection?.cancel();
     } catch (e) {}
     // Start scannin
     _scanConnection = flutterReactiveBle.scanForDevices(

@@ -22,7 +22,7 @@ class _TestOtaState extends State<TestOtaView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("升级Demo"),
+        title: const Text("GAIA Control Demo"),
       ),
       body: Column(
         children: [
